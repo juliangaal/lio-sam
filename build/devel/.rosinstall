@@ -1,0 +1,2 @@
+- setup-file:
+    local-name: /home/lin/Projects/catkin_ws/src/LIO-SAM/build/devel/setup.sh

@@ -1,0 +1,11 @@
+<launch>
+
+    <arg name="project" default="lio_sam"/>
+    
+    <node pkg="$(arg project)" type="transformFusionNode"     name="$(arg project)_transformFusionNode"        output="screen" 	 respawn="true"/>
+    <node pkg="$(arg project)" type="imuPreintegrationNode"   name="$(arg project)_imuPreintegrationNode"    output="screen" 	 respawn="true"/>
+    <node pkg="$(arg project)" type="imageProjectionNode"     name="$(arg project)_imageProjectionNode"      output="screen"     respawn="true"/>
+    <node pkg="$(arg project)" type="featureExtractionNode"   name="$(arg project)_featureExtractionNode"    output="screen"     respawn="true"/>
+    <node pkg="$(arg project)" type="mapOptmizationNode"      name="$(arg project)_mapOptmizationNode"       output="screen"     respawn="true"/>
+    
+</launch>
