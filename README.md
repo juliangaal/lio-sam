@@ -77,7 +77,7 @@ Time Consumed: 65.0343 ms Per Scan.
 - [LIO-SAM](https://github.com/TixiaoShan/LIO-SAM)
 - [Faster-LIO](https://github.com/gaoxiang12/faster-lio) 
 - [liorf](https://github.com/YJZLuckyBoy/liorf)
-- [D-LIOM]https://github.com/peterWon/D-LIOM
+- [D-LIOM](https://github.com/peterWon/D-LIOM)
 
 # LIO-SAM
 
