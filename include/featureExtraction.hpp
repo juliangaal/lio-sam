@@ -2,7 +2,8 @@
 #define FEATURE_EXTRACTION_HPP
 
 #include "lio_sam/cloud_info.h"
-#include "utility.h"
+#include "utility/paramServer.hpp"
+#include "utility/utility.h"
 
 struct smoothness_t
 {

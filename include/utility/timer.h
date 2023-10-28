@@ -14,7 +14,7 @@
 #include <numeric>
 #include <string>
 
-#include "color.h"
+#include "utility/color.h"
 
 namespace faster_lio
 {

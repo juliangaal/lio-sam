@@ -1,4 +1,4 @@
-#include "gravity_factor/gravity_estimator.h"
+#include "gravity_factor/gravityEstimator.h"
 
 // namespace lio_sam
 // {
@@ -240,12 +240,12 @@ bool GravityEstimator::ApproximateGravity(
     const double                                 g_norm,
     Eigen::Vector3d &                            g )
 {
-  size_t          window_size = all_laser_transforms.size();
-  int             n_state     = window_size * 3 + 3;  //3g + n*3v
+  size_t window_size = all_laser_transforms.size();
+  // int             n_state     = window_size * 3 + 3;  //3g + n*3v
   Eigen::VectorXd x;
   // Laser in Base(IMU)
   Eigen::Vector3d tlb = transform_lb.translation();
-  Eigen::Matrix3d rlb = transform_lb.linear();
+  // Eigen::Matrix3d rlb = transform_lb.linear();
 
   Eigen::Matrix3d A{ 3, 3 };
   A.setZero();
@@ -317,7 +317,7 @@ void GravityEstimator::RefineGravity(
 
   // Laser in Base(IMU)
   Eigen::Vector3d tlb = transform_lb.translation();
-  Eigen::Matrix3d rlb = transform_lb.linear();
+  // Eigen::Matrix3d rlb = transform_lb.linear();
 
   Eigen::Vector3d lx, ly;
   Eigen::VectorXd x;

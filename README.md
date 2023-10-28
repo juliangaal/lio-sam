@@ -1,3 +1,5 @@
+**somebody help me to test out the pose error? PLZ**
+
 # change logs
 
 1. add 'leishen' lidar type, which will calculate point time reference to the first point
@@ -85,7 +87,7 @@ Time Consumed: 65.0343 ms Per Scan.
   gravityOptimizationFlag: true
   gravityEstimateWindowSize: 100
   gravityNoise: 1.0e-02
-  
+
 Time Consumed: 31.5915 ms Per Scan.
 >>> ===== Printing run time =====
 > [ correctPosesIVox ] average time usage: 0.00018943 ms , called times: 4035
@@ -149,31 +151,28 @@ Time Consumed: 63.6046 ms Per Scan.
 
 ## Menu
 
-  - [**System architecture**](#system-architecture)
-
-  - [**Package dependency**](#dependency)
-
-  - [**Package install**](#install)
-
-  - [**Prepare lidar data**](#prepare-lidar-data) (must read)
-
-  - [**Prepare IMU data**](#prepare-imu-data) (must read)
-
-  - [**Sample datasets**](#sample-datasets)
-
-  - [**Run the package**](#run-the-package)
-
-  - [**Other notes**](#other-notes)
-
-  - [**Issues**](#issues)
-
-  - [**Paper**](#paper)
-
-  - [**TODO**](#todo)
-
-  - [**Related Package**](#related-package)
-
-  - [**Acknowledgement**](#acknowledgement)
+- [change logs](#change-logs)
+  - [TODO](#todo)
+  - [current work](#current-work)
+  - [performance compared](#performance-compared)
+  - [Reference](#reference)
+- [LIO-SAM](#lio-sam)
+  - [Menu](#menu)
+  - [System architecture](#system-architecture)
+  - [Dependency](#dependency)
+  - [Install](#install)
+  - [Using Docker](#using-docker)
+  - [Prepare lidar data](#prepare-lidar-data)
+  - [Prepare IMU data](#prepare-imu-data)
+  - [Sample datasets](#sample-datasets)
+  - [Run the package](#run-the-package)
+  - [Other notes](#other-notes)
+  - [Service](#service)
+  - [Issues](#issues)
+  - [Paper](#paper)
+  - [TODO](#todo-1)
+  - [Related Package](#related-package)
+  - [Acknowledgement](#acknowledgement)
 
 ## System architecture
 

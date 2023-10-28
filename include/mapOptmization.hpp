@@ -15,14 +15,14 @@
 #include <GeographicLib/Geocentric.hpp>
 #include <GeographicLib/LocalCartesian.hpp>
 
-#include "dataType.hpp"
 #include "ivox3d/ivox3d.h"
 #include "lio_sam/cloud_info.h"
 #include "lio_sam/save_map.h"
-#include "statistics_accumulator.h"
-#include "timer.h"
-#include "utility.h"
-
+#include "utility/dataType.hpp"
+#include "utility/paramServer.hpp"
+#include "utility/statisticsAccumulator.h"
+#include "utility/timer.h"
+#include "utility/utility.h"
 // using namespace gtsam;
 
 using gtsam::symbol_shorthand::B;  // Bias  (ax,ay,az,gx,gy,gz)

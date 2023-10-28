@@ -14,9 +14,9 @@
 #include <list>
 #include <thread>
 
-#include "color.h"
 #include "eigen_types.h"
 #include "ivox3d_node.hpp"
+#include "utility/color.h"
 
 namespace faster_lio
 {

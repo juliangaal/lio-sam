@@ -1,9 +1,10 @@
 #ifndef IMAGE_PROJECTION_HPP
 #define IMAGE_PROJECTION_HPP
 
-#include "dataType.hpp"
 #include "lio_sam/cloud_info.h"
-#include "utility.h"
+#include "utility/dataType.hpp"
+#include "utility/paramServer.hpp"
+#include "utility/utility.h"
 
 const int queueLength = 2000;
 

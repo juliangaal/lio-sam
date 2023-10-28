@@ -3,7 +3,7 @@
 #include <cmath>
 #include <iostream>
 
-#include "color.h"
+#include "utility/color.h"
 class AccumulateAverage
 {
 public:

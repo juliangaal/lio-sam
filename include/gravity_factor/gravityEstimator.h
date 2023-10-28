@@ -5,7 +5,7 @@
 #include <eigen3/Eigen/Dense>
 #include <memory>
 
-#include "dataType.hpp"
+#include "utility/dataType.hpp"
 
 namespace lio_sam
 {

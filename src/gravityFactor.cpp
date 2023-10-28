@@ -2,7 +2,7 @@
 
 #include <glog/logging.h>
 
-#include "gravity_factor/gravity_factor.h"
+#include "gravity_factor/gravityFactor.h"
 
 using namespace std;
 namespace gtsam

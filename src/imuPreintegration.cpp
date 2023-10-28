@@ -316,7 +316,7 @@ bool IMUPreintegration::estimateGravity()
   transformAndPreintegratorQueue.emplace_back( temp );
   imuGravityVec.emplace_back( Eigen::Vector3d( prevVel_.x(), prevVel_.y(), prevVel_.z() ) );
 
-  if ( transformAndPreintegratorQueue.size() > gravityEstimateWindowSize + 1 )
+  if ( static_cast<int>( transformAndPreintegratorQueue.size() ) > gravityEstimateWindowSize + 1 )
   {
     transformAndPreintegratorQueue.pop_front();
     imuGravityVec.pop_front();

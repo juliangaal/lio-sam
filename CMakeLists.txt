@@ -104,8 +104,8 @@ add_library(timer src/timer.cpp)
 target_link_libraries(timer glog)
 
 add_library(gtsamGravityFactor 
-  src/gravity_factor.cc
-  src/gravity_estimator.cc
+  src/gravityFactor.cpp
+  src/gravityEstimator.cpp
   # src/gtsamGravityFactor.cpp
   )
 target_link_libraries(gtsamGravityFactor gtsam glog)
@@ -116,7 +116,7 @@ add_library(imageProjection src/imageProjection.cpp)
 add_dependencies(imageProjection  ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS} ${PROJECT_NAME}_generate_messages_cpp)
 target_link_libraries(imageProjection ${catkin_LIBRARIES} ${PCL_LIBRARIES} ${OpenCV_LIBRARIES} gtsam)
 
-add_executable(imageProjectionNode src/imageProjectionNode.cpp)
+add_executable(imageProjectionNode src/node/imageProjectionNode.cpp)
 add_dependencies(imageProjectionNode  ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS} ${PROJECT_NAME}_generate_messages_cpp)
 target_link_libraries(imageProjectionNode ${catkin_LIBRARIES} ${PCL_LIBRARIES} ${OpenCV_LIBRARIES} gtsam imageProjection)
 
@@ -125,7 +125,7 @@ add_library(featureExtraction src/featureExtraction.cpp)
 target_link_libraries(featureExtraction ${catkin_LIBRARIES} ${PCL_LIBRARIES} ${OpenCV_LIBRARIES} gtsam)
 add_dependencies(featureExtraction  ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS} ${PROJECT_NAME}_generate_messages_cpp)
 
-add_executable(featureExtractionNode src/featureExtractionNode.cpp)
+add_executable(featureExtractionNode src/node/featureExtractionNode.cpp)
 add_dependencies(featureExtractionNode  ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS} ${PROJECT_NAME}_generate_messages_cpp)
 target_link_libraries(featureExtractionNode ${catkin_LIBRARIES} ${PCL_LIBRARIES} ${OpenCV_LIBRARIES} gtsam  featureExtraction)
 
@@ -134,7 +134,7 @@ add_library(mapOptmization src/mapOptmization.cpp)
 target_link_libraries(mapOptmization Boost::timer ${catkin_LIBRARIES} ${PCL_LIBRARIES} ${OpenCV_LIBRARIES} ${OpenMP_CXX_FLAGS} ${GeographicLib_LIBRARIES} gtsam timer)
 add_dependencies(mapOptmization  ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS} ${PROJECT_NAME}_generate_messages_cpp)
 
-add_executable(mapOptmizationNode src/mapOptmizationNode.cpp)
+add_executable(mapOptmizationNode src/node/mapOptmizationNode.cpp)
 add_dependencies(mapOptmizationNode  ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS} ${PROJECT_NAME}_generate_messages_cpp)
 target_compile_options(mapOptmizationNode PRIVATE ${OpenMP_CXX_FLAGS})
 target_link_libraries(mapOptmizationNode Boost::timer ${catkin_LIBRARIES} ${PCL_LIBRARIES} ${OpenCV_LIBRARIES} ${OpenMP_CXX_FLAGS} gtsam mapOptmization)
@@ -144,7 +144,7 @@ add_library(imuPreintegration src/imuPreintegration.cpp)
 target_link_libraries(imuPreintegration Boost::timer ${catkin_LIBRARIES} ${PCL_LIBRARIES} ${OpenCV_LIBRARIES} gtsam gtsamGravityFactor)
 add_dependencies(imuPreintegration  ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS} ${PROJECT_NAME}_generate_messages_cpp)
 
-add_executable(imuPreintegrationNode src/imuPreintegrationNode.cpp)
+add_executable(imuPreintegrationNode src/node/imuPreintegrationNode.cpp)
 add_dependencies(imuPreintegrationNode  ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS} ${PROJECT_NAME}_generate_messages_cpp)
 target_link_libraries(imuPreintegrationNode Boost::timer ${catkin_LIBRARIES} ${PCL_LIBRARIES} ${OpenCV_LIBRARIES} ${GeographicLib_LIBRARIES} gtsam gtsamGravityFactor imuPreintegration )
 
@@ -153,7 +153,7 @@ add_library(transformFusion src/transformFusion.cpp)
 target_link_libraries(transformFusion ${catkin_LIBRARIES} ${PCL_LIBRARIES} ${OpenCV_LIBRARIES} gtsam)
 add_dependencies(transformFusion  ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS} ${PROJECT_NAME}_generate_messages_cpp)
 
-add_executable(transformFusionNode src/transformFusionNode.cpp)
+add_executable(transformFusionNode src/node/transformFusionNode.cpp)
 add_dependencies(transformFusionNode  ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS} ${PROJECT_NAME}_generate_messages_cpp)
 target_link_libraries(transformFusionNode ${catkin_LIBRARIES} ${PCL_LIBRARIES} ${OpenCV_LIBRARIES} gtsam transformFusion )
 

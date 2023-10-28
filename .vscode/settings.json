@@ -76,6 +76,7 @@
         "variant": "cpp",
         "bit": "cpp",
         "core": "cpp",
-        "numericaldiff": "cpp"
+        "numericaldiff": "cpp",
+        "dense": "cpp"
     }
 }
