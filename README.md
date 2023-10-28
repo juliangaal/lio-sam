@@ -126,7 +126,34 @@ Time Consumed: 63.6046 ms Per Scan.
 >>> ===== Printing run time end =====
 ```
 
+3. 2023-10-28
 
+```sh
+  # IVox
+  dynamicSearchRadiusFlag: false                      # 是否使用动态搜索半径
+  neighborSearchRadius: 1.0                   # default: 2.0, radius used for searching neighboring points to build local map
+  useIVox: true                                  # iVox数据结构，在空旷场景不建议使用，水库那种场景可以使用(不要改)
+  iVoxType: 1                                     # 0->CENTER, 1->NEARBY6, 2->NEARBY16, 3->NEARBY26
+  iVoxCapacity: 10000
+  iVoxResolution: 1.0                             # meters
+
+  # gravity optimization
+  gravityOptimizationFlag: true
+  gravityEstimateWindowSize: 100
+  gravityNoise: 1.0e-02
+  
+Time Consumed: 24.1582 ms Per Scan.
+>>> ===== Printing run time =====
+> [ correctPosesIVox ] average time usage: 0.000175657 ms , called times: 4040
+> [ downsampleCurrentScanIVox ] average time usage: 0.278043 ms , called times: 4040
+> [ extractSurroundingKeyFramesIVox ] average time usage: 0.607423 ms , called times: 4040
+> [ publishFramesIVox ] average time usage: 0.783844 ms , called times: 4040
+> [ publishOdometryIVox ] average time usage: 0.099423 ms , called times: 4040
+> [ saveKeyFramesAndFactorIVox ] average time usage: 0.145128 ms , called times: 4040
+> [ scan2MapOptimizationIVox ] average time usage: 21.7572 ms , called times: 4040
+> [ updateInitialGuessIVox ] average time usage: 0.00640013 ms , called times: 4040
+>>> ===== Printing run time end =====
+```
 
 ## Reference
 - [LIO-SAM](https://github.com/TixiaoShan/LIO-SAM)
