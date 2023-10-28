@@ -180,7 +180,7 @@ public:
   int   iVoxType;
 
   // gravity
-  bool  gravityOptimization;
+  bool  gravityOptimizationFlag;
   float gravityNoise;
   int   gravityEstimateWindowSize;
 
@@ -296,7 +296,7 @@ public:
     nh.param<float>( "lio_sam/iVoxCapacity", iVoxCapacity, 500000 );
     nh.param<float>( "lio_sam/iVoxResolution", iVoxResolution, 0.2 );
 
-    nh.param<bool>( "lio_sam/gravityOptimization", gravityOptimization, false );
+    nh.param<bool>( "lio_sam/gravityOptimizationFlag", gravityOptimizationFlag, false );
     nh.param<float>( "lio_sam/gravityNoise", gravityNoise, 0.001 );
     nh.param<int>( "lio_sam/gravityEstimateWindowSize", gravityEstimateWindowSize, 200 );
 

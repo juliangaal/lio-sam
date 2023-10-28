@@ -89,6 +89,7 @@ include_directories(
 # link directories
 link_directories(
 	include
+  ${catkin_LIBRARY_DIRS}
 	${PCL_LIBRARY_DIRS}
   ${OpenCV_LIBRARY_DIRS}
   ${GTSAM_LIBRARY_DIRS}

@@ -15,6 +15,7 @@
 #include <gtsam_unstable/nonlinear/IncrementalFixedLagSmoother.h>
 
 // #include "gtsamGravityFactor.hpp"
+#include "dataType.hpp"
 #include "gravity_factor/gravity_estimator.h"
 #include "gravity_factor/gravity_factor.h"
 #include "utility.h"
@@ -77,14 +78,16 @@ private:
   gtsam::Pose3 lidar2Imu = gtsam::Pose3( gtsam::Rot3( 1, 0, 0, 0 ), gtsam::Point3( extTrans.x(), extTrans.y(), extTrans.z() ) );
 
   // gravity optimization
-  std::deque<Eigen::Vector3d>                   imuGravityVec;
-  gtsam::noiseModel::Diagonal::shared_ptr       priorGravityNoise;
-  Eigen::Vector3d                               gravityVec;          // always be ~(0,0,-9.8)
-  Eigen::Vector3d                               gravityInBodyVec;    // in body(IMU) frame
-  Eigen::Vector3d                               gravityInGlobalVec;  // in Global(ENU) frame
-  GravityEstimator<double>                      gravityEstimator;
-  std::deque<TransformAndPreintegrator<double>> transformAndPreintegratorQueue;
-  std::deque<TransformAndPreintegrator<double>> transformAndPreintegratorQueueTemp;
+  std::deque<Eigen::Vector3d>             imuGravityVec;
+  gtsam::noiseModel::Diagonal::shared_ptr priorGravityNoise;
+  Eigen::Vector3d                         gravityVec;          // always be ~(0,0,-9.8)
+  Eigen::Vector3d                         gravityInBodyVec;    // in body(IMU) frame
+  Eigen::Vector3d                         gravityInGlobalVec;  // in Global(ENU) frame
+  GravityEstimator                        gravityEstimator;
+  std::deque<TransformAndPreintegrator>   transformAndPreintegratorQueue;
+  std::deque<TransformAndPreintegrator>   transformAndPreintegratorQueueTemp;
+
+  Eigen::Affine3d transform_l_b = Eigen::Affine3d::Identity();
 
 public:
   IMUPreintegration();

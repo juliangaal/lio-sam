@@ -4,22 +4,22 @@
 #include <pcl/point_types.h>
 
 // for gravity optimization
-template <typename T>
 class TransformAndPreintegrator
 {
 public:
   EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 
-  Eigen::Transform<T, 3, Eigen::Affine>                transform;
+  Eigen::Affine3d transform;
+
   std::shared_ptr<gtsam::PreintegratedImuMeasurements> pre_integration;
 
   explicit TransformAndPreintegrator()
   {
-    transform       = Eigen::Transform<T, 3, Eigen::Affine>::Identity();
+    transform       = Eigen::Affine3d::Identity();
     pre_integration = nullptr;
-  }
+  };
 
-  TransformAndPreintegrator( const Eigen::Transform<T, 3, Eigen::Affine>& transform_, const std::shared_ptr<gtsam::PreintegratedImuMeasurements>& imu_integrator_ )
+  TransformAndPreintegrator( const Eigen::Affine3d& transform_, const std::shared_ptr<gtsam::PreintegratedImuMeasurements>& imu_integrator_ )
       : transform( transform_ ), pre_integration( imu_integrator_ )
   {
   }

@@ -5,6 +5,7 @@ Panels:
     Property Tree Widget:
       Expanded:
         - /links1
+        - /links1/map1
         - /links1/base_link1
         - /Odometry1
         - /Point Cloud1
@@ -54,7 +55,7 @@ Visualization Manager:
         - Alpha: 1
           Class: rviz/Axes
           Enabled: true
-          Length: 2
+          Length: 5
           Name: map
           Radius: 0.5
           Reference Frame: map
@@ -516,7 +517,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 303.2806091308594
+      Distance: 160.94613647460938
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
@@ -524,9 +525,9 @@ Visualization Manager:
         Value: false
       Field of View: 0.7853981852531433
       Focal Point:
-        X: -11.753456115722656
-        Y: 7.817720890045166
-        Z: -43.11977767944336
+        X: 2.349092721939087
+        Y: 22.058177947998047
+        Z: -39.706817626953125
       Focal Shape Fixed Size: false
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
@@ -534,7 +535,7 @@ Visualization Manager:
       Near Clip Distance: 0.009999999776482582
       Pitch: 1.5697963237762451
       Target Frame: base_link
-      Yaw: 5.928038597106934
+      Yaw: 5.88303804397583
     Saved: ~
 Window Geometry:
   Displays:

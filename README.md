@@ -24,7 +24,7 @@ sudo apt-get install libgeographic-dev
 1. IVox testing
 reduce the time consumed in extractSurroundingKeyFrames() from 22.7ms to 0.68ms, but did not test with the pose error. did not have so much time. In eyes, the final point cloud is as same as origin lio-sam done. 
 
-```
+```sh
   # IVox
   dynamicSearchRadiusFlag: false                      # 是否使用动态搜索半径
   neighborSearchRadius: 1.0                           # default: 2.0, radius used for searching neighboring points to build local map
@@ -68,6 +68,59 @@ Time Consumed: 65.0343 ms Per Scan.
 > [ scan2MapOptimization ] average time usage: 38.9445 ms , called times: 4029
 > [ surfOptimization ] average time usage: 3.94509 ms , called times: 18524
 > [ updateInitialGuess ] average time usage: 0.00672121 ms , called times: 4029
+>>> ===== Printing run time end =====
+```
+2. gravity estimate and gravity factor test
+
+```sh
+  # IVox
+  dynamicSearchRadiusFlag: false                      # 是否使用动态搜索半径
+  neighborSearchRadius: 1.0                   # default: 2.0, radius used for searching neighboring points to build local map
+  useIVox: true                                  # iVox数据结构，在空旷场景不建议使用，水库那种场景可以使用(不要改)
+  iVoxType: 1                                     # 0->CENTER, 1->NEARBY6, 2->NEARBY16, 3->NEARBY26
+  iVoxCapacity: 10000
+  iVoxResolution: 1.0                             # meters
+
+  # gravity optimization
+  gravityOptimizationFlag: true
+  gravityEstimateWindowSize: 100
+  gravityNoise: 1.0e-02
+  
+Time Consumed: 31.5915 ms Per Scan.
+>>> ===== Printing run time =====
+> [ correctPosesIVox ] average time usage: 0.00018943 ms , called times: 4035
+> [ downsampleCurrentScanIVox ] average time usage: 0.300651 ms , called times: 4035
+> [ extractSurroundingKeyFramesIVox ] average time usage: 0.736813 ms , called times: 4035
+> [ publishFramesIVox ] average time usage: 1.35226 ms , called times: 4035
+> [ publishOdometryIVox ] average time usage: 0.148484 ms , called times: 4035
+> [ saveKeyFramesAndFactorIVox ] average time usage: 0.178237 ms , called times: 4035
+> [ scan2MapOptimizationIVox ] average time usage: 28.3285 ms , called times: 4035
+> [ updateInitialGuessIVox ] average time usage: 0.00611167 ms , called times: 4035
+>>> ===== Printing run time end =====
+
+  # IVox
+  dynamicSearchRadiusFlag: false                      # 是否使用动态搜索半径
+  neighborSearchRadius: 1.0                   # default: 2.0, radius used for searching neighboring points to build local map
+  useIVox: false                                  # iVox数据结构，在空旷场景不建议使用，水库那种场景可以使用(不要改)
+  iVoxType: 1                                     # 0->CENTER, 1->NEARBY6, 2->NEARBY16, 3->NEARBY26
+  iVoxCapacity: 10000
+  iVoxResolution: 1.0                             # meters
+
+  # gravity optimization
+  gravityOptimizationFlag: true
+  gravityEstimateWindowSize: 100
+  gravityNoise: 1.0e-02
+
+Time Consumed: 63.6046 ms Per Scan.
+>>> ===== Printing run time =====
+> [ correctPoses ] average time usage: 0.000122884 ms , called times: 4026
+> [ downsampleCurrentScan ] average time usage: 0.289437 ms , called times: 4026
+> [ extractSurroundingKeyFrames ] average time usage: 26.3491 ms , called times: 4026
+> [ publishFrames ] average time usage: 1.46647 ms , called times: 4026
+> [ publishOdometry ] average time usage: 0.0742092 ms , called times: 4026
+> [ saveKeyFramesAndFactor ] average time usage: 0.120713 ms , called times: 4026
+> [ scan2MapOptimization ] average time usage: 34.7966 ms , called times: 4026
+> [ updateInitialGuess ] average time usage: 0.00551109 ms , called times: 4026
 >>> ===== Printing run time end =====
 ```
 

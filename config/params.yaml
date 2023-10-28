@@ -102,7 +102,7 @@ lio_sam:
   iVoxResolution: 1.0                             # meters
 
   # gravity optimization
-  gravityOptimization: false
+  gravityOptimizationFlag: true
   gravityEstimateWindowSize: 100
   gravityNoise: 1.0e-02
 

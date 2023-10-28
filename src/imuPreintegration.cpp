@@ -158,7 +158,7 @@ void IMUPreintegration::odometryHandler( const nav_msgs::Odometry::ConstPtr& odo
     graphFactors.add( priorBias );
 
     // add gravity
-    if ( gravityOptimization )
+    if ( gravityOptimizationFlag )
     {
       // TODO add gravity factor
       // 1. add a gravity estimate function, it will return a bool to indicate if the gravity is valid
@@ -222,6 +222,23 @@ void IMUPreintegration::odometryHandler( const nav_msgs::Odometry::ConstPtr& odo
   gtsam::PriorFactor<gtsam::Pose3> pose_factor( X( key ), curPose, degenerate ? correctionNoise2 : correctionNoise );
   graphFactors.add( pose_factor );
 
+  // add gravity
+  if ( gravityOptimizationFlag )
+  {
+    // TODO add gravity factor
+    // 1. add a gravity estimate function, it will return a bool to indicate if the gravity is valid
+    if ( estimateGravity() && ( key - gravityEstimateWindowSize ) >= 0 )
+    {
+      Eigen::Vector3d           negativeGravityVec = gravityInGlobalVec.normalized();
+      gtsam::Unit3              gravityInGlobal( negativeGravityVec[ 0 ], negativeGravityVec[ 1 ], negativeGravityVec[ 2 ] );
+      gtsam::Unit3              gravityReferencBody( 0.0f, 0.0f, -1.0f );
+      gtsam::Pose3GravityFactor gravityFactor( X( key - gravityEstimateWindowSize ), gravityInGlobal, priorGravityNoise, gravityReferencBody );
+      graphFactors.add( gravityFactor );
+    }
+  }
+
+  // ROS_INFO_STREAM( "Velocity Before Optimization: " << prevVel_[ 0 ] << " " << prevVel_[ 1 ] << " " << prevVel_[ 2 ] );
+
   // insert predicted values
   gtsam::NavState propState_ = imuIntegratorOpt_->predict( prevState_, prevBias_ );
   graphValues.insert( X( key ), propState_.pose() );
@@ -240,6 +257,8 @@ void IMUPreintegration::odometryHandler( const nav_msgs::Odometry::ConstPtr& odo
   prevVel_             = result.at<gtsam::Vector3>( V( key ) );
   prevState_           = gtsam::NavState( prevPose_, prevVel_ );
   prevBias_            = result.at<gtsam::imuBias::ConstantBias>( B( key ) );
+
+  // ROS_INFO_STREAM( "Velocity After Optimization: " << prevVel_[ 0 ] << " " << prevVel_[ 1 ] << " " << prevVel_[ 2 ] );
 
   // Reset the optimization preintegration object.
   imuIntegratorOpt_->resetIntegrationAndSetBias( prevBias_ );
@@ -293,7 +312,8 @@ bool IMUPreintegration::estimateGravity()
 
   std::shared_ptr<gtsam::PreintegratedImuMeasurements> currentIntgrator;
   currentIntgrator.reset( new gtsam::PreintegratedImuMeasurements( *imuIntegratorOpt_ ) );
-  transformAndPreintegratorQueue.emplace_back( TransformAndPreintegrator( transform, currentIntgrator ) );
+  TransformAndPreintegrator temp( transform, currentIntgrator );
+  transformAndPreintegratorQueue.emplace_back( temp );
   imuGravityVec.emplace_back( Eigen::Vector3d( prevVel_.x(), prevVel_.y(), prevVel_.z() ) );
 
   if ( transformAndPreintegratorQueue.size() > gravityEstimateWindowSize + 1 )
@@ -315,24 +335,29 @@ bool IMUPreintegration::estimateGravity()
       const auto& R_w_inv = transformAndPreintegratorQueue[ i ].transform.linear().inverse();
       imuGravityVec[ i ]  = R_w_inv * imuGravityVec[ i ];
     }
-    // TODO calculate gravity velocity in IMU frame and return true if it is valid
-    // if ( g_estimator_.Estimate( g_est_transforms_tmp_, transform_lb_, g_est_Vs_, options_.imu_options().gravity(), g_vec_est_B_ ) )
-    // {
-    //   g_vec_est_G_ = g_est_transforms_.front().transform.rotation().toRotationMatrix() * ( -g_vec_est_B_ );
 
-    //   if ( g_vec_est_G_[ 2 ] + options_.imu_options().gravity() < 0.5 )
-    //   {
-    //     // LOG(INFO) << g_vec_est_G_[0]<<","<<g_vec_est_G_[1]<<","<<g_vec_est_G_[2];
-    //     return true;
-    //   }
-    //   else
-    //   {
-    //     return false;
-    //   }
-    // }
+    // TODO calculate gravity velocity in IMU frame and return true if it is valid
+    if ( gravityEstimator.Estimate( transformAndPreintegratorQueueTemp, transform_l_b, imuGravityVec, static_cast<double>( imuGravity ), gravityInBodyVec ) )
+    {
+      gravityInGlobalVec = transformAndPreintegratorQueue.front().transform.linear() * ( -gravityInBodyVec );
+
+      if ( gravityInGlobalVec[ 2 ] + imuGravity < 0.5 )
+      {
+        ROS_INFO_STREAM( BOLDMAGENTA << "Succese\t"
+                                     << "gravityInGlobalVec: " << gravityInGlobalVec.transpose() << RESET );
+        // LOG(INFO) << g_vec_est_G_[0]<<","<<g_vec_est_G_[1]<<","<<g_vec_est_G_[2];
+        return true;
+      }
+      else
+      {
+        ROS_INFO_STREAM( BOLDRED << "Fail:\t"
+                                 << "gravityInGlobalVec: " << gravityInGlobalVec.transpose() << RESET );
+        return false;
+      }
+    }
   }
 
-  return true;
+  return false;
 }
 
 bool IMUPreintegration::failureDetection( const gtsam::Vector3& velCur, const gtsam::imuBias::ConstantBias& biasCur )

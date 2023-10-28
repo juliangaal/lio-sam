@@ -1,5 +1,5 @@
 #include "mapOptmization.hpp"
-
+#define DEBUG 1
 
 namespace lio_sam
 {
@@ -124,7 +124,9 @@ void MapOptimization::allocateMemory()
 
 void MapOptimization::laserCloudInfoHandler( const lio_sam::cloud_infoConstPtr &msgIn )
 {
+#if DEBUG
   timerLin.tic();
+#endif
   // extract time stamp
   timeLaserInfoStamp = msgIn->header.stamp;
   timeLaserInfoCur   = msgIn->header.stamp.toSec();
@@ -143,6 +145,7 @@ void MapOptimization::laserCloudInfoHandler( const lio_sam::cloud_infoConstPtr &
 
     if ( useIVox )
     {
+#if DEBUG
       faster_lio::Timer::Evaluate( [ &, this ]() { updateInitialGuess(); }, "updateInitialGuessIVox" );
       faster_lio::Timer::Evaluate( [ &, this ]() { extractSurroundingKeyFrames(); }, "extractSurroundingKeyFramesIVox" );
       faster_lio::Timer::Evaluate( [ &, this ]() { downsampleCurrentScan(); }, "downsampleCurrentScanIVox" );
@@ -151,9 +154,20 @@ void MapOptimization::laserCloudInfoHandler( const lio_sam::cloud_infoConstPtr &
       faster_lio::Timer::Evaluate( [ &, this ]() { correctPoses(); }, "correctPosesIVox" );
       faster_lio::Timer::Evaluate( [ &, this ]() { publishOdometry(); }, "publishOdometryIVox" );
       faster_lio::Timer::Evaluate( [ &, this ]() { publishFrames(); }, "publishFramesIVox" );
+#else
+      updateInitialGuess();
+      extractSurroundingKeyFrames();
+      downsampleCurrentScan();
+      scan2MapOptimizationIVox();
+      saveKeyFramesAndFactor();
+      correctPoses();
+      publishOdometry();
+      publishFrames();
+#endif
     }
     else
     {
+#if DEBUG
       faster_lio::Timer::Evaluate( [ &, this ]() { updateInitialGuess(); }, "updateInitialGuess" );
       faster_lio::Timer::Evaluate( [ &, this ]() { extractSurroundingKeyFrames(); }, "extractSurroundingKeyFrames" );
       faster_lio::Timer::Evaluate( [ &, this ]() { downsampleCurrentScan(); }, "downsampleCurrentScan" );
@@ -162,12 +176,23 @@ void MapOptimization::laserCloudInfoHandler( const lio_sam::cloud_infoConstPtr &
       faster_lio::Timer::Evaluate( [ &, this ]() { correctPoses(); }, "correctPoses" );
       faster_lio::Timer::Evaluate( [ &, this ]() { publishOdometry(); }, "publishOdometry" );
       faster_lio::Timer::Evaluate( [ &, this ]() { publishFrames(); }, "publishFrames" );
+#else
+      updateInitialGuess();
+      extractSurroundingKeyFrames();
+      downsampleCurrentScan();
+      scan2MapOptimization();
+      saveKeyFramesAndFactor();
+      correctPoses();
+      publishOdometry();
+      publishFrames();
+#endif
     }
   }
-
+#if DEBUG
   timerLin.toc();
   timeAverage.addValue( timerLin.time_consumed_ms_double );
   std::cout << BOLDGREEN << "MapOptimization::laserCloudInfoHandler took " << timerLin.time_consumed_ms_double << " ms." << RESET << std::endl;
+#endif
 }
 
 void MapOptimization::gpsHandler( const nav_msgs::Odometry::ConstPtr &gpsMsg )
@@ -1069,15 +1094,13 @@ void MapOptimization::scan2MapOptimization()
       laserCloudOri->clear();
       coeffSel->clear();
 
-      faster_lio::Timer::Evaluate( [ &, this ]() { cornerOptimization(); }, "cornerOptimization" );
-      faster_lio::Timer::Evaluate( [ &, this ]() { surfOptimization(); }, "surfOptimization" );
-      faster_lio::Timer::Evaluate( [ &, this ]() { combineOptimizationCoeffs(); }, "combineOptimizationCoeffs" );
+      // faster_lio::Timer::Evaluate( [ &, this ]() { cornerOptimization(); }, "cornerOptimization" );
+      // faster_lio::Timer::Evaluate( [ &, this ]() { surfOptimization(); }, "surfOptimization" );
+      // faster_lio::Timer::Evaluate( [ &, this ]() { combineOptimizationCoeffs(); }, "combineOptimizationCoeffs" );
 
-      // cornerOptimization();
-      // surfOptimization();
-
-
-      // combineOptimizationCoeffs();
+      cornerOptimization();
+      surfOptimization();
+      combineOptimizationCoeffs();
 
       if ( LMOptimization( iterCount ) == true )
       {
@@ -1108,13 +1131,12 @@ void MapOptimization::scan2MapOptimizationIVox()
       laserCloudOri->clear();
       coeffSel->clear();
 
-      faster_lio::Timer::Evaluate( [ &, this ]() { cornerOptimizationIVox(); }, "cornerOptimizationIVox" );
-      faster_lio::Timer::Evaluate( [ &, this ]() { surfOptimizationIVox(); }, "surfOptimizationIVox" );
-      faster_lio::Timer::Evaluate( [ &, this ]() { combineOptimizationCoeffs(); }, "combineOptimizationCoeffs" );
-      // cornerOptimizationIVox();
-      // surfOptimizationIVox();
-
-      // combineOptimizationCoeffs();
+      // faster_lio::Timer::Evaluate( [ &, this ]() { cornerOptimizationIVox(); }, "cornerOptimizationIVox" );
+      // faster_lio::Timer::Evaluate( [ &, this ]() { surfOptimizationIVox(); }, "surfOptimizationIVox" );
+      // faster_lio::Timer::Evaluate( [ &, this ]() { combineOptimizationCoeffs(); }, "combineOptimizationCoeffs" );
+      cornerOptimizationIVox();
+      surfOptimizationIVox();
+      combineOptimizationCoeffs();
 
       if ( LMOptimization( iterCount ) == true )
       {
